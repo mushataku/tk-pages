@@ -1,0 +1,511 @@
+<title>ペルソナ設計図｜ユウタ v4</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+  :root {
+    --bg: #F2F5F8;
+    --surface: #FFFFFF;
+    --surface-2: #EAEEF3;
+    --ink: #1B2530;
+    --muted: #5C6B7C;
+    --line: #D5DDE5;
+    --grid: rgba(43, 108, 176, .07);
+
+    --c-motive: #C9401A;
+    --c-batna: #2B6CB0;
+    --c-temper: #2E7D4F;
+    --c-entry: #A97210;
+    --c-search: #6B46C1;
+    --c-family: #B03A6B;
+    --c-slate: #4A5A6A;
+    --c-home: #0E7C7B;
+
+    --ok-bg: #E3F1E9; --ok-ink: #1F6A42;
+    --wait-bg: #FBEFD8; --wait-ink: #8A5B00;
+    --src-bg: #E5EDF6; --src-ink: #2B5C8F;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #101720; --surface: #1A2330; --surface-2: #141C27;
+      --ink: #E7EDF3; --muted: #97A5B4; --line: #2B3949; --grid: rgba(120,170,220,.06);
+      --c-motive: #F0764A; --c-batna: #6FA8DC; --c-temper: #6CBF91;
+      --c-entry: #D9A441; --c-search: #A98CE8; --c-family: #E07AA8; --c-slate: #9AACBE; --c-home: #59C2BE;
+      --ok-bg: #16311F; --ok-ink: #8CD3A8; --wait-bg: #3A2D10; --wait-ink: #E8C06B;
+      --src-bg: #16283A; --src-ink: #8FB8E0;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #101720; --surface: #1A2330; --surface-2: #141C27;
+    --ink: #E7EDF3; --muted: #97A5B4; --line: #2B3949; --grid: rgba(120,170,220,.06);
+    --c-motive: #F0764A; --c-batna: #6FA8DC; --c-temper: #6CBF91;
+    --c-entry: #D9A441; --c-search: #A98CE8; --c-family: #E07AA8; --c-slate: #9AACBE; --c-home: #59C2BE;
+    --ok-bg: #16311F; --ok-ink: #8CD3A8; --wait-bg: #3A2D10; --wait-ink: #E8C06B;
+    --src-bg: #16283A; --src-ink: #8FB8E0;
+  }
+  :root[data-theme="light"] {
+    --bg: #F2F5F8; --surface: #FFFFFF; --surface-2: #EAEEF3;
+    --ink: #1B2530; --muted: #5C6B7C; --line: #D5DDE5; --grid: rgba(43,108,176,.07);
+    --c-motive: #C9401A; --c-batna: #2B6CB0; --c-temper: #2E7D4F;
+    --c-entry: #A97210; --c-search: #6B46C1; --c-family: #B03A6B; --c-slate: #4A5A6A; --c-home: #0E7C7B;
+    --ok-bg: #E3F1E9; --ok-ink: #1F6A42; --wait-bg: #FBEFD8; --wait-ink: #8A5B00;
+    --src-bg: #E5EDF6; --src-ink: #2B5C8F;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif;
+    line-height: 1.75;
+  }
+  h1, .fig-title, .stamp { font-feature-settings: "palt"; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 40px 22px 72px; }
+
+  /* ---------- header ---------- */
+  header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 18px; border-bottom: 2px solid var(--ink); padding-bottom: 14px; }
+  .eyebrow { font-size: 12px; letter-spacing: .18em; color: var(--muted); text-transform: uppercase; }
+  h1 { font-size: clamp(24px, 4vw, 34px); font-weight: 800; margin: 4px 0 0; line-height: 1.3; text-wrap: balance; }
+  .stamp {
+    margin-left: auto; align-self: center;
+    border: 2px solid var(--c-motive); color: var(--c-motive);
+    font-weight: 800; font-size: 12px; letter-spacing: .12em;
+    padding: 4px 10px; border-radius: 3px; transform: rotate(-3deg);
+    white-space: nowrap; text-align: center;
+  }
+  .meta { font-size: 12px; color: var(--muted); margin-top: 8px; }
+
+  /* ---------- intro ---------- */
+  .intro { margin-top: 26px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 22px 26px; }
+  .intro h2 { margin: 0 0 8px; font-size: 16px; font-weight: 800; }
+  .intro p { margin: 0 0 10px; font-size: 14px; max-width: 62em; }
+  .flow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 12px; }
+  .flow .step { background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px; font-size: 12.5px; font-weight: 700; padding: 5px 14px; }
+  .flow .arr { color: var(--muted); font-weight: 700; }
+
+  /* ---------- fig label ---------- */
+  .fig { margin-top: 46px; }
+  .fig-label { display: flex; align-items: baseline; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+  .fig-no { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: 12px; letter-spacing: .1em; color: var(--muted); border: 1px solid var(--line); padding: 1px 8px; border-radius: 2px; background: var(--surface); }
+  .fig-title { font-size: 15px; font-weight: 700; }
+  .fig-note { font-size: 12px; color: var(--muted); }
+
+  /* ---------- FIG.1 radial poster ---------- */
+  .poster {
+    display: grid;
+    grid-template-columns: minmax(200px, 1fr) minmax(340px, 1.5fr) minmax(200px, 1fr);
+    grid-auto-rows: auto;
+    gap: 26px;
+    align-items: center;
+  }
+  .center-cell { grid-column: 2; grid-row: 2; }
+
+  .blueprint {
+    background:
+      repeating-linear-gradient(0deg, var(--grid) 0 1px, transparent 1px 28px),
+      repeating-linear-gradient(90deg, var(--grid) 0 1px, transparent 1px 28px),
+      var(--surface);
+    border: 1.5px solid var(--c-batna);
+    border-radius: 6px;
+    padding: 26px 28px;
+    position: relative;
+  }
+  .blueprint::before, .blueprint::after { content: ""; position: absolute; width: 12px; height: 12px; border-color: var(--c-batna); border-style: solid; }
+  .blueprint::before { top: 6px; left: 6px; border-width: 2px 0 0 2px; }
+  .blueprint::after  { bottom: 6px; right: 6px; border-width: 0 2px 2px 0; }
+  .def { font-size: 16px; line-height: 2.1; margin: 0; }
+  .def b.name { font-size: 1.3em; font-weight: 800; }
+
+  mark {
+    background: color-mix(in srgb, var(--hl) 13%, transparent);
+    color: inherit;
+    border-bottom: 2.5px solid var(--hl);
+    padding: 1px 2px 0;
+    border-radius: 2px 2px 0 0;
+    cursor: default;
+    transition: background .15s;
+  }
+  mark .tag {
+    display: inline-block; font-size: 10px; font-weight: 800; line-height: 1;
+    color: var(--surface); background: var(--hl);
+    border-radius: 999px; padding: 3px 6px; margin-left: 3px;
+    position: relative; top: -0.7em; letter-spacing: .05em;
+  }
+  mark.hot { background: color-mix(in srgb, var(--hl) 30%, transparent); }
+
+  .note {
+    position: relative;
+    background: var(--surface); border: 1px solid var(--line); border-top: 3px solid var(--hl);
+    border-radius: 5px; padding: 12px 14px;
+    font-size: 12.5px; line-height: 1.65; color: var(--muted);
+  }
+  .note b { color: var(--ink); display: block; font-size: 13px; margin-bottom: 2px; }
+  .note .key { display: inline-block; font-size: 10.5px; font-weight: 800; color: var(--surface); background: var(--hl); border-radius: 999px; padding: 2px 8px; margin-right: 6px; letter-spacing: .06em; }
+  .note.hot { outline: 2px solid var(--hl); outline-offset: -1px; }
+  .note::after { content: ""; position: absolute; width: 9px; height: 9px; border-top: 2.5px solid var(--hl); border-right: 2.5px solid var(--hl); }
+  .p-l::after  { right: -19px; top: 50%; transform: translateY(-50%) rotate(45deg); }
+  .p-r::after  { left: -19px;  top: 50%; transform: translateY(-50%) rotate(-135deg); }
+  .p-t::after  { bottom: -19px; left: 50%; transform: translateX(-50%) rotate(135deg); }
+  .p-b::after  { top: -19px;    left: 50%; transform: translateX(-50%) rotate(-45deg); }
+  .p-tl::after { right: -17px; bottom: -17px; transform: rotate(90deg); }
+  .p-tr::after { left: -17px;  bottom: -17px; transform: rotate(180deg); }
+  .p-bl::after { right: -17px; top: -17px; transform: rotate(0deg); }
+  .p-br::after { left: -17px;  top: -17px; transform: rotate(-90deg); }
+
+  .g-tl { grid-column: 1; grid-row: 1; }
+  .g-t  { grid-column: 2; grid-row: 1; }
+  .g-tr { grid-column: 3; grid-row: 1; }
+  .g-l  { grid-column: 1; grid-row: 2; }
+  .g-r  { grid-column: 3; grid-row: 2; }
+  .g-bl { grid-column: 1; grid-row: 3; }
+  .g-b  { grid-column: 2; grid-row: 3; }
+  .g-br { grid-column: 3; grid-row: 3; }
+
+  @media (max-width: 900px) {
+    .poster { display: flex; flex-direction: column; gap: 12px; }
+    .center-cell { order: -1; }
+    .note::after { display: none; }
+    .note { border-top: 1px solid var(--line); border-left: 4px solid var(--hl); }
+  }
+
+  /* ---------- FIG.2 detail cards ---------- */
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--hl); border-radius: 5px; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px; }
+  .card.hot { outline: 2px solid var(--hl); outline-offset: -1px; }
+  .card-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .key-lg { font-size: 11px; font-weight: 800; color: var(--surface); background: var(--hl); border-radius: 999px; padding: 3px 9px; letter-spacing: .06em; }
+  .card h3 { font-size: 15px; font-weight: 800; margin: 0; }
+  .card p { margin: 0; font-size: 13.5px; line-height: 1.8; }
+  .card .why { color: var(--muted); }
+  .card .why b { color: var(--ink); }
+  .badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: auto; padding-top: 4px; }
+  .badge { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 999px; white-space: nowrap; }
+  .b-ok   { background: var(--ok-bg); color: var(--ok-ink); }
+  .b-wait { background: var(--wait-bg); color: var(--wait-ink); }
+  .b-src  { background: var(--src-bg); color: var(--src-ink); }
+
+  /* ---------- search strip ---------- */
+  .search-rows { display: flex; flex-direction: column; gap: 10px; }
+  .srow { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; background: var(--surface); border: 1px solid var(--line); border-radius: 5px; padding: 12px 16px; }
+  .srow .slabel { font-size: 12px; font-weight: 800; min-width: 9em; }
+  .chip { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: 12.5px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 4px; padding: 2px 9px; white-space: nowrap; }
+  .srow .snote { font-size: 12px; color: var(--muted); flex-basis: 100%; }
+
+  /* ---------- FIG.4 article funnel ---------- */
+  .funnel { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .fstage { border: 1px solid var(--line); background: var(--surface); border-radius: 6px; padding: 14px 20px; width: 100%; }
+  .fstage:nth-child(1) { width: 100%; }
+  .fstage:nth-child(3) { width: 94%; }
+  .fstage:nth-child(5) { width: 88%; }
+  .fstage:nth-child(7) { width: 82%; }
+  .fstage:nth-child(9) { width: 76%; }
+  .f-exit { width: 68%; background: var(--ink); color: var(--bg); border-radius: 6px; padding: 12px 20px; text-align: center; font-weight: 800; font-size: 14px; }
+  .f-arrow { color: var(--muted); font-size: 16px; line-height: 1; padding: 6px 0; }
+  .fs-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; margin-bottom: 8px; }
+  .fs-name { font-weight: 800; font-size: 14.5px; }
+  .fs-role { font-size: 12px; color: var(--muted); }
+  .fs-role b { color: var(--ink); }
+  .fs-mind { font-size: 12px; color: var(--muted); font-style: normal; }
+  .arts { display: flex; flex-wrap: wrap; gap: 6px; }
+  .art { font-size: 12px; font-weight: 700; border: 1.5px solid var(--c-batna); color: var(--c-batna); border-radius: 999px; padding: 2px 11px; }
+  .art.plan { border-style: dashed; border-color: var(--c-motive); color: var(--c-motive); }
+  .flegend { font-size: 12px; color: var(--muted); margin-top: 10px; text-align: center; }
+  .flegend .art { font-size: 11px; }
+
+  /* ---------- exclusions ---------- */
+  .ex-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+  .ex { background: var(--surface-2); border: 1px dashed var(--muted); border-radius: 5px; padding: 14px 18px; }
+  .ex h3 { margin: 0 0 6px; font-size: 14px; font-weight: 800; }
+  .ex h3 .no { color: var(--c-motive); }
+  .ex p { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.8; }
+  .ex p b { color: var(--ink); }
+
+  footer { margin-top: 48px; border-top: 1px solid var(--line); padding-top: 14px; font-size: 12px; color: var(--muted); line-height: 2; }
+  footer code { font-family: ui-monospace, Consolas, monospace; background: var(--surface-2); padding: 1px 6px; border-radius: 3px; }
+
+  @media (prefers-reduced-motion: reduce) { mark, .note, .card { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <div class="eyebrow">SNS × 施工管理集客 ─ PERSONA BLUEPRINT</div>
+      <h1>ペルソナ設計図「ユウタ」</h1>
+      <div class="meta">v4仮確定（2026-07-08）｜正本: docs/SPEC.md ターゲット定義</div>
+    </div>
+    <div class="stamp">仮確定<br>気質=検証済</div>
+  </header>
+
+  <!-- 背景 -->
+  <section class="intro">
+    <h2>この設計図は何か</h2>
+    <p>
+      人材紹介事業（施工管理の求人）の集客を、note記事・TikTok・ThreadsなどのSNSで行う。その運用の考え方が<b>「ペルソナ駆動逆算」</b>——
+      たった1人の架空の求職者を徹底的に具体化し、その人が転職を決めるまでの各段階に必要な記事を逆算してすべて決める、という戦略。
+      ペルソナ以外の読者に向けた内容は書かない（ペルソナ外のアクセスは応募につながらないため）。
+    </p>
+    <p>
+      この1枚は、その中心にあるペルソナ<b>「ユウタ」</b>の定義と、<b>一語一句がどんな根拠から設定されているか</b>、
+      そして<b>この人に向けてどんなnote記事を書いていくか</b>をまとめたもの。記事の企画・執筆・レビューはすべてこの人物を基準に判断する。
+    </p>
+    <div class="flow">
+      <span class="step">① ペルソナを1人に固定</span><span class="arr">→</span>
+      <span class="step">② その人の各段階に必要な記事を逆算</span><span class="arr">→</span>
+      <span class="step">③ それ以外は書かない・削る</span>
+    </div>
+  </section>
+
+  <!-- FIG.1 radial poster -->
+  <section class="fig">
+    <div class="fig-label"><span class="fig-no">図1</span><span class="fig-title">ユウタ全体像（ポンチ絵）</span><span class="fig-note">── 詳しい根拠は図2へ。色付き要素にカーソルを乗せると連動します</span></div>
+    <div class="poster">
+
+      <div class="note g-tl p-br" data-k="age" style="--hl:var(--c-slate)">
+        <b><span class="key">A</span>24歳</b>
+        紹介先4社の年齢上限（32〜34歳）のド真ん中。若さが最大の採用条件
+      </div>
+      <div class="note g-t p-b" data-k="motive" style="--hl:var(--c-motive)">
+        <b><span class="key">G</span>動機の芯＝焦り</b>
+        憧れではなく「30歳までに何とかしたい」危機感で動く。決め手は結局カネ
+      </div>
+      <div class="note g-tr p-bl" data-k="temper" style="--hl:var(--c-temper)">
+        <b><span class="key">C</span>気質＝体育会系</b>
+        人と話すのが苦じゃない・上下関係に慣れてる。企業が実際に見る唯一の適性（検証済✓）
+      </div>
+
+      <div class="note g-l p-r" data-k="batna" style="--hl:var(--c-batna)">
+        <b><span class="key">B</span>他の選択肢が弱い</b>
+        昇給ほぼ無し・正社員登用は塩漬け・書類落ち経験。だから施工管理の提案が「純粋な改善」になる
+      </div>
+
+      <div class="center-cell">
+        <div class="blueprint">
+          <p class="def">
+            <b class="name">ユウタ、</b><mark data-k="age" style="--hl:var(--c-slate)">24歳<span class="tag">A</span></mark>。
+            <mark data-k="batna" style="--hl:var(--c-batna)">大学中退→飲食ホール3年目、手取り19万<span class="tag">B</span></mark>。
+            <mark data-k="temper" style="--hl:var(--c-temper)">高校まで野球部<span class="tag">C</span></mark>。
+            <mark data-k="home" style="--hl:var(--c-home)">埼玉の実家の近くで1人暮らし<span class="tag">H</span></mark>。
+            <mark data-k="entry" style="--hl:var(--c-entry)">夜な夜なTikTokで転職動画を流し見<span class="tag">D</span></mark>。
+            <mark data-k="lazy" style="--hl:var(--c-search)">Progateは1週間で挫折<span class="tag">E</span></mark>。
+            <mark data-k="family" style="--hl:var(--c-family)">親には「いつまでバイトなの」<span class="tag">F</span></mark>。
+            <mark data-k="motive" style="--hl:var(--c-motive)">30歳を想像すると、胃が重い<span class="tag">G</span></mark>。
+          </p>
+        </div>
+      </div>
+
+      <div class="note g-r p-l" data-k="entry" style="--hl:var(--c-entry)">
+        <b><span class="key">D</span>入口はITだけじゃない</b>
+        IT・事務・ゲームテスター…「キャッチーな何か」に引っかかる状態が本質。ITへの憧れは入口の1本にすぎない
+      </div>
+
+      <div class="note g-bl p-tr" data-k="lazy" style="--hl:var(--c-search)">
+        <b><span class="key">E</span>考えてない、が検索はする</b>
+        職種の比較検討はしない。でも夜中に「26歳 フリーター やばい」とは打つ（図3）
+      </div>
+      <div class="note g-b p-t" data-k="home" style="--hl:var(--c-home)">
+        <b><span class="key">H</span>身軽＝全国転勤OK</b>
+        単身・扶養なし。紹介先は配属先が全国の現場次第＝この身軽さが採用と配属の自由度に直結
+      </div>
+      <div class="note g-br p-tl" data-k="family" style="--hl:var(--c-family)">
+        <b><span class="key">F</span>親の圧</b>
+        焦りの供給源であり、内定承諾の直前に立ちはだかる最後の壁でもある
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FIG.2 detail cards -->
+  <section class="fig">
+    <div class="fig-label"><span class="fig-no">図2</span><span class="fig-title">各要素の詳しい根拠</span><span class="fig-note">── なぜその一文がそこにあるか。バッジ＝根拠の出どころと検証状態</span></div>
+    <div class="cards">
+
+      <div class="card" data-k="age" style="--hl:var(--c-slate)">
+        <div class="card-head"><span class="key-lg">A</span><h3>24歳 ＝ 採用条件の中心</h3></div>
+        <p>紹介先のコア4社（施工管理に特化した技術者派遣の大手）の明文上限は32〜34歳。24歳は面接通過・定着の両面でストライクゾーンのど真ん中。</p>
+        <p class="why"><b>根拠:</b> 4社の求人票（学歴・経験は不問で、年齢だけが明文条件）＋業界の本音「32歳を過ぎると年上の新人に職人も先輩も指摘しづらい＝教える側の負担が跳ね上がる」（現場出身者の体験記）。</p>
+        <div class="badges"><span class="badge b-src">紹介先4社の求人票</span><span class="badge b-src">体験記調査</span></div>
+      </div>
+
+      <div class="card" data-k="batna" style="--hl:var(--c-batna)">
+        <div class="card-head"><span class="key-lg">B</span><h3>中退・ホール3年目・手取り19万 ＝ 他の選択肢が弱い</h3></div>
+        <p>今より良い選択肢を他に持たない人ほど、転職の決断は速い。昇給は年数千円・正社員登用は「検討中」のまま・学歴で総合職は書類落ち。施工管理の未経験オファー（年収300万円台〜）でも現状比で純粋な改善になる位置に置いてある。</p>
+        <p class="why"><b>根拠:</b> 転職承諾のしやすさの分解（期待値のズレ×<b>他の選択肢の弱さ</b>×動機の一致×気質）＋ネットで見つかる成功体験記6人の前職が全員、飲食・接客・カラオケ店員・工場だった事実。</p>
+        <div class="badges"><span class="badge b-src">承諾分析</span><span class="badge b-src">体験記調査</span></div>
+      </div>
+
+      <div class="card" data-k="temper" style="--hl:var(--c-temper)">
+        <div class="card-head"><span class="key-lg">C</span><h3>元野球部 ＝ 気質（企業が見る唯一の適性）</h3></div>
+        <p>人と話すのが苦じゃない・上下関係に慣れてる・朝に強い。学歴・経験不問の世界では、企業が実際に見ているのはほぼこれだけ。部活歴は面接通過の実弾になる。</p>
+        <p class="why"><b>根拠:</b> 紹介先4社中4社が「コミュニケーション能力・明るさ・前向きさ」を要件に明記＋初回CAヒアリング（2026-07-08）で「承諾者は体育会系が多く、面接でも部活歴（武道10年超）が深掘りされて評価された」ことを確認。</p>
+        <div class="badges"><span class="badge b-ok">ヒアリングで支持済 2026-07-08</span><span class="badge b-src">紹介先4社の求人票</span></div>
+      </div>
+
+      <div class="card" data-k="home" style="--hl:var(--c-home)">
+        <div class="card-head"><span class="key-lg">H</span><h3>埼玉・実家の近くで1人暮らし ＝ 身軽（全国転勤OK）</h3></div>
+        <p>単身・扶養なし・持ち家なし。紹介先は派遣型で、配属先は全国の現場次第——転勤・現場異動に対応できる身軽さが、採用のしやすさと配属の自由度に直結する。実家暮らしではなく「実家の近くで1人暮らし」なのは、生活は自立しているが親の目が日常的に届く距離（Fの圧が効く）という設計。</p>
+        <p class="why"><b>根拠:</b> 紹介先4社が派遣・アウトソーシング型（自社雇用→全国の現場に配属）＋地方案件は普通免許が要件になる等、機動力が条件の求人が実在。</p>
+        <div class="badges"><span class="badge b-src">紹介先4社の求人票</span><span class="badge b-src">設計判断 2026-07-08</span></div>
+      </div>
+
+      <div class="card" data-k="entry" style="--hl:var(--c-entry)">
+        <div class="card-head"><span class="key-lg">D</span><h3>エンジニアへの憧れ ＝ 入口の1本（ITだけじゃない）</h3></div>
+        <p>「IT志望」はユウタの人格ではなく、通過する一時的な状態。実際の承諾者の応募入口はIT・事務・ゲームテスターとバラバラで、「キャッチーな何かに引っかかった」が本質。ITまわりの言葉はネット上の情報・広告の量が圧倒的に多いので、主力の入口として維持しつつ、他の入口（フリーターの焦り・部活引退後の空白）を並走させる。</p>
+        <p class="why"><b>根拠:</b> 初回CAヒアリング（承諾5件の応募入口がバラバラだった）＋転職成功者は後から自分の物語からIT志望歴を消して語る（＝本人のアイデンティティではない証拠）。</p>
+        <div class="badges"><span class="badge b-ok">ヒアリングで実証</span><span class="badge b-src">体験記調査</span></div>
+      </div>
+
+      <div class="card" data-k="lazy" style="--hl:var(--c-search)">
+        <div class="card-head"><span class="key-lg">E</span><h3>広告保存・Progate1週間 ＝「考えてない」の実像</h3></div>
+        <p>職種を体系的に比較検討するような調べ物はしない。ただし<b>焦りに駆られた衝動検索はする</b>。ガチでITを勉強している層（＝除外2）ではないことの描写でもある。記事の役割は「調べ物への回答」ではなく「夜中の焦りの受け皿」。</p>
+        <p class="why"><b>根拠:</b> フリーターから施工管理で成功した人の体験記の原文「毎晩スマホで『30歳 フリーター やばい』って検索してた」＝考えないタイプも検索はする。打つのは職種名ではなく自分の状態（図3）。</p>
+        <div class="badges"><span class="badge b-src">体験記調査</span><span class="badge b-ok">ヒアリング整合</span></div>
+      </div>
+
+      <div class="card" data-k="family" style="--hl:var(--c-family)">
+        <div class="card-head"><span class="key-lg">F</span><h3>親の圧 ＝ 承諾の最終壁</h3></div>
+        <p>「いつまでバイトなの」は焦りの供給源であると同時に、内定承諾の直前で「建設ってきついんでしょ」と反対してくる最後の壁。親が検索する言葉で書いた記事（施工管理の将来性をデータで示す）が、本人に代わる説得材料になる。</p>
+        <p class="why"><b>根拠:</b> 若年層の内定辞退の定番理由「親に反対された」＋記事の役割分析でこの用途の記事を誰も書いていない（＝空白）と判明。実際の頻度は次回CAヒアリングで確認する。</p>
+        <div class="badges"><span class="badge b-wait">実態は次回ヒアリング</span><span class="badge b-src">役割の逆算</span></div>
+      </div>
+
+      <div class="card" data-k="motive" style="--hl:var(--c-motive)">
+        <div class="card-head"><span class="key-lg">G</span><h3>「胃が重い」＝ 動機の芯は憧れでなく焦り</h3></div>
+        <p>手に職・30歳までにちゃんとした正社員・親を安心させたい。この焦りが行動の全エネルギー源。だから記事は夢を煽らず、焦りを受け止めて「期限のある行動計画」に変換する。面談でも決め手は結局「金が稼げる」。</p>
+        <p class="why"><b>根拠:</b> 成功体験記6人が全員、危機感で動いていた（「30歳へのカウントダウン」「借金返済」「AIに仕事を奪われる不安」）＋初回CAヒアリング「金が響く。きつさは正直に言った上で『お前なら乗り越えられる』と言える関係値で決まる」。</p>
+        <div class="badges"><span class="badge b-src">体験記調査</span><span class="badge b-ok">ヒアリング一致</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FIG.3 search window -->
+  <section class="fig">
+    <div class="fig-label"><span class="fig-no">図3</span><span class="fig-title">ユウタの検索窓</span><span class="fig-note">── 検索窓には恥ずかしい言葉を打ち、人前では「見切りをつけた」と語る（検索語と自己物語の乖離）</span></div>
+    <div class="search-rows">
+      <div class="srow">
+        <span class="slabel" style="color:var(--c-motive)">状態の検索（主戦場）</span>
+        <span class="chip">26歳 フリーター やばい</span><span class="chip">30歳までに 正社員</span><span class="chip">高卒 手に職</span><span class="chip">部活しかしてこなかった 就職</span>
+        <span class="snote">職種名でなく「自分の状態」を打つ。考えてない層の夜中の衝動検索を待ち構える記事群＝2026-07-08に企画済み</span>
+      </div>
+      <div class="srow">
+        <span class="slabel" style="color:var(--c-entry)">職種の検索（憧れ〜現実接触）</span>
+        <span class="chip">未経験 エンジニア なるには</span><span class="chip">未経験 IT転職 難しい</span><span class="chip">プログラミングスクール 意味ない</span>
+        <span class="snote">既存記事群がカバー済み。入口の主力1本として維持</span>
+      </div>
+      <div class="srow">
+        <span class="slabel" style="color:var(--c-search)">恥ずかしい検索（幻滅期）</span>
+        <span class="chip">未経験 IT 落ちる</span><span class="chip">IT転職 諦めた</span>
+        <span class="snote">検索窓にだけ打たれ、人前では語られない。検索キーワードはこの言葉で取りに行き、本文は「見切りは賢い判断」と尊厳を守るトーンで書く</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FIG.4 article funnel -->
+  <section class="fig">
+    <div class="fig-label"><span class="fig-no">図4</span><span class="fig-title">note記事ファネル</span><span class="fig-note">── ユウタが転職を決めるまでの各段階に、役割の違う記事が会いに行く</span></div>
+    <div class="funnel">
+
+      <div class="fstage">
+        <div class="fs-head">
+          <span class="fs-name">① 憧れ期</span>
+          <span class="fs-role"><b>見つけてもらう記事</b>（reach）── 検索面・おすすめ面に立つ</span>
+          <span class="fs-mind">ユウタ:「ITって手に職だよな」／夜中に状態検索</span>
+        </div>
+        <div class="arts">
+          <span class="art">未経験からIT転職は「難しい」のか</span>
+          <span class="art">プログラミングスクールに行く前に確認したい数字</span>
+          <span class="art plan">26歳フリーター、30歳から逆算する残り時間（企画）</span>
+          <span class="art plan">部活しかしてこなかった、は武器になる（企画）</span>
+          <span class="art plan">体力と人当たりが資産になる仕事（企画）</span>
+        </div>
+      </div>
+      <div class="f-arrow">▼</div>
+
+      <div class="fstage">
+        <div class="fs-head">
+          <span class="fs-name">② 現実接触期</span>
+          <span class="fs-role"><b>自分事にさせる記事</b>（jibungoto）＋<b>乗り換えを肯定する記事</b>（norikae）</span>
+          <span class="fs-mind">ユウタ: 求人の壁・スクール価格で立ち止まる</span>
+        </div>
+        <div class="arts">
+          <span class="art">手に職を3条件×データで職種比較（柱記事）</span>
+          <span class="art">1級施工管理技士は19歳から受検可能に</span>
+          <span class="art plan">ITに見切りをつけるのは賢い判断（企画・面談実話あり）</span>
+        </div>
+      </div>
+      <div class="f-arrow">▼</div>
+
+      <div class="fstage">
+        <div class="fs-head">
+          <span class="fs-name">③ 比較検討期</span>
+          <span class="fs-role"><b>合わない人を正直に断る記事</b>（screening）＋<b>相談の背中を押す記事</b>（senaka）</span>
+          <span class="fs-mind">ユウタ: 施工管理が選択肢に。「やめとけ」が怖い。LINE登録を迷う</span>
+        </div>
+        <div class="arts">
+          <span class="art plan">人と話すのが苦手なら、本当にITを頑張るべき（企画）</span>
+          <span class="art plan">面談で正直に言うこと・言わないこと（企画）</span>
+        </div>
+      </div>
+      <div class="f-arrow">▼</div>
+
+      <div class="fstage">
+        <div class="fs-head">
+          <span class="fs-name">④ 面談後</span>
+          <span class="fs-role"><b>裏取りに耐える記事</b>（uratori）── CAに勧められた夜、検索して確かめに来る</span>
+          <span class="fs-mind">ユウタ:「ほんとに大丈夫なのか？」と夜中に検索</span>
+        </div>
+        <div class="arts">
+          <span class="art">施工管理の年収、求人票の集計は313〜840万円</span>
+          <span class="art">ホワイト企業の見分け方｜求人票5項目</span>
+          <span class="art">「やめとけ」は半分正しい</span>
+          <span class="art">自己紹介（何者が書いているか）</span>
+          <span class="art plan">技術者派遣の光と影・配属の実態（企画）</span>
+        </div>
+      </div>
+      <div class="f-arrow">▼</div>
+
+      <div class="fstage">
+        <div class="fs-head">
+          <span class="fs-name">⑤ 承諾直前</span>
+          <span class="fs-role"><b>親の反対を解く記事</b>（shui-block）── 親が検索する言葉で書く</span>
+          <span class="fs-mind">親:「建設ってきついんでしょ」</span>
+        </div>
+        <div class="arts">
+          <span class="art plan">施工管理の将来性をデータで（企画・親向け）</span>
+        </div>
+      </div>
+      <div class="f-arrow">▼</div>
+
+      <div class="f-exit">公式LINE登録 → CA面談 → 内定・承諾</div>
+    </div>
+    <div class="flegend">
+      <span class="art">実線＝執筆済み（8本）</span>　<span class="art plan">破線＝企画済み・未執筆（8本）</span>　※カッコ内の英字は管理用の役割コード（記事データに記録）
+    </div>
+  </section>
+
+  <!-- FIG.5 exclusions -->
+  <section class="fig">
+    <div class="fig-label"><span class="fig-no">図5</span><span class="fig-title">除外条件</span><span class="fig-note">── 誰に売らないか。合わない人の承諾は売上ゼロではなくマイナス（早期離職→紹介手数料の返金）</span></div>
+    <div class="ex-cards">
+      <div class="ex"><h3><span class="no">除外1</span>｜リモート・自由が主目的</h3><p>施工管理は現場仕事＝構造的に満たせない→<b>ミスマッチ→早期離職→返金</b>。記事内の振り分けで誠実にIT・事務系へ送る。</p></div>
+      <div class="ex"><h3><span class="no">除外2</span>｜ITの適性が確認できているガチ勢</h3><p>学習が続いていてコードが好きな人は引き止めない。「働きながら毎月200時間勉強する子」の実在（面談実例）＝ユウタとは別人種。そのままITへ背中を押す。</p></div>
+      <div class="ex"><h3><span class="no">除外3</span>｜人との調整そのものが苦痛な気質</h3><p>紹介先4社すべての要件と合わない。「合わない人を正直に断る記事」で<b>面談前に自分で気づいてもらう</b>。初回ヒアリングで承諾者の気質の傾向から支持済み（2026-07-08）。</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <div><b>残る検証:</b> 定着・返金の実績のみ（初回ヒアリング時点ではまだ観測期間内＝判定には早い → 2026年10月頃に再ヒアリング）。結果が覆ったら該当要素だけ修正し、記事の役割の割り当てからやり直す。</div>
+    <div><b>正本:</b> <code>docs/SPEC.md</code> ターゲット定義｜設計手順: skill <code>sns-persona-strategy</code>｜経緯: <code>docs/discussions/2026-07-08_persona-driven-sns-strategy.md</code>｜面談実例: <code>data/case_log.md</code></div>
+  </footer>
+</div>
+
+<script>
+  document.querySelectorAll("[data-k]").forEach(function (el) {
+    el.addEventListener("mouseenter", function () { toggle(el.dataset.k, true); });
+    el.addEventListener("mouseleave", function () { toggle(el.dataset.k, false); });
+  });
+  function toggle(key, on) {
+    document.querySelectorAll('[data-k="' + key + '"]').forEach(function (el) {
+      el.classList.toggle("hot", on);
+    });
+  }
+</script>
